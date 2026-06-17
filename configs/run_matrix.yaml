@@ -1,0 +1,41 @@
+experiments:
+  # --- Synthetic: make_moons ---
+  - configs/make_moons_dataset/0_hyperparameter_selection/moons_b0_classical_C_sweep.yaml
+  - configs/make_moons_dataset/0_hyperparameter_selection/moons_b2_qsvm_statevector_reps_sweep.yaml
+  - configs/make_moons_dataset/0_hyperparameter_selection/moons_b3_qsvm_shots_sweep.yaml
+  - configs/make_moons_dataset/1_baselines/moons_b4_classical_baseline.yaml
+  - configs/make_moons_dataset/1_baselines/moons_b5_qsvm_noiseless_baseline.yaml
+  - configs/make_moons_dataset/1_baselines/moons_b6_qsvm_shot_noise_baseline.yaml
+  - configs/make_moons_dataset/2_dataset_noise_sweep/moons_b7_classical_dataset_noise_sweep.yaml
+  - configs/make_moons_dataset/2_dataset_noise_sweep/moons_b8_qsvm_statevector_dataset_noise_sweep.yaml
+  - configs/make_moons_dataset/2_dataset_noise_sweep/moons_b9_qsvm_noisyaer_shotonly_dataset_noise_sweep.yaml
+  - configs/make_moons_dataset/3_physical_noise/moons_b10_qsvm_noisyaer_depol_strength_sweep.yaml
+  - configs/make_moons_dataset/3_physical_noise/moons_b11_qsvm_noisyaer_amplitude_strength_sweep.yaml
+  - configs/make_moons_dataset/3_physical_noise/moons_b12_qsvm_noisyaer_phase_strength_sweep.yaml
+  - configs/make_moons_dataset/4_combined_physical_noise/moons_b13_combined_low.yaml
+  - configs/make_moons_dataset/4_combined_physical_noise/moons_b14_combined_medium.yaml
+  - configs/make_moons_dataset/4_combined_physical_noise/moons_b15_combined_high.yaml
+
+  # # --- Banknote ---
+  - configs/banknote_dataset/0_baselines/banknote_b0_classical_baseline.yaml
+  - configs/banknote_dataset/0_baselines/banknote_b1_qsvm_statevector_baseline.yaml
+  - configs/banknote_dataset/0_baselines/banknote_b2_qsvm_shot_noise_baseline.yaml
+  - configs/banknote_dataset/1_physical_noise/banknote_b3_qsvm_noisyaer_depol_strength_sweep.yaml
+  - configs/banknote_dataset/1_physical_noise/banknote_b4_qsvm_noisyaer_amplitude_strength_sweep.yaml
+  - configs/banknote_dataset/1_physical_noise/banknote_b5_qsvm_noisyaer_phase_strength_sweep.yaml
+  - configs/banknote_dataset/2_combined_noise/banknote_b6_combined_low.yaml
+  - configs/banknote_dataset/2_combined_noise/banknote_b7_combined_medium.yaml
+  - configs/banknote_dataset/2_combined_noise/banknote_b8_combined_high.yaml
+
+  # # --- PCA-Reduced Banknote ---
+  - configs/banknote_dataset_pca/0_baselines/banknote_pca_p0_classical_baseline.yaml
+  - configs/banknote_dataset_pca/0_baselines/banknote_pca_p1_qsvm_noiseless_baseline.yaml
+  - configs/banknote_dataset_pca/0_baselines/banknote_pca_p2_qsvm_shot_noise_baseline.yaml
+  - configs/banknote_dataset_pca/1_physical_noise/banknote_pca_p3_qsvm_noisyaer_depol_strength_sweep.yaml
+  - configs/banknote_dataset_pca/1_physical_noise/banknote_pca_p4_qsvm_noisyaer_amplitude_strength_sweep.yaml
+  - configs/banknote_dataset_pca/1_physical_noise/banknote_pca_p5_qsvm_noisyaer_phase_strength_sweep.yaml
+  - configs/banknote_dataset_pca/2_combined_noise/banknote_pca_p6_combined_low.yaml
+  - configs/banknote_dataset_pca/2_combined_noise/banknote_pca_p7_combined_medium.yaml
+  - configs/banknote_dataset_pca/2_combined_noise/banknote_pca_p8_combined_high.yaml
+
+  

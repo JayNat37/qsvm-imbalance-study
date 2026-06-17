@@ -1,0 +1,27 @@
+name: moons_b7_classical_dataset_noise_sweep
+
+dataset:
+  name: make_moons
+  params:
+    n_samples: 300
+    noise: 0.0          # overridden
+    random_seed: 42
+  test_size: 0.3
+  split_seed: 42
+  scale: True
+
+model:
+  kind: classical_svm
+  classical_svm:
+    kernel: rbf
+    C: 10.0
+    gamma: scale
+
+runs:
+  repeats: 10
+  vary_seed: True
+  seed_start: 0
+
+sweep:
+  path: dataset.params.noise
+  values: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5]

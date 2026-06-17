@@ -1,0 +1,26 @@
+name: moons_b0_classical_C_sweep
+
+dataset:
+  name: make_moons
+  params:
+    n_samples: 300
+    noise: 0.2
+    random_seed: 42
+  test_size: 0.3
+  split_seed: 42
+  scale: true
+
+model:
+  kind: classical_svm
+  classical_svm:
+    kernel: rbf
+    C: 1.0        # overridden
+    gamma: scale
+
+runs:
+  repeats: 1
+  vary_seed: False
+
+sweep:
+  path: model.classical_svm.C
+  values: [0.1, 1, 10, 100]

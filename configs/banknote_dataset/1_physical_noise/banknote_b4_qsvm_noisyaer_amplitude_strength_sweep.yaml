@@ -1,0 +1,35 @@
+name: banknote_b4_qsvm_noisyaer_amplitude_damping_sweep
+
+dataset:
+  name: banknote
+  params:
+    path: data/data_banknote_authentication.txt
+  test_size: 0.3
+  split_seed: 42
+  max_samples: 300
+
+model:
+  kind: qsvm
+  qsvm:
+    feature_map: pauli
+    reps: 1
+    entanglement: linear
+    mode: noisy_aer
+    shots: 2048
+    seed: 42
+    scale_to_pi: true
+    C: 10.0
+    noise:
+      type: amplitude_damping
+      strength: 0.0             # overridden  
+      params: {}
+      apply_to: single_qubit
+
+runs:
+  repeats: 10
+  vary_seed: true
+  seed_start: 0
+
+sweep:
+  path: model.qsvm.noise.strength
+  values: [0.01, 0.05, 0.1]

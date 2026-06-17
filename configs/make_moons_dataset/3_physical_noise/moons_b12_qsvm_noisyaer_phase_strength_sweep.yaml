@@ -1,0 +1,37 @@
+name: moons_b12_qsvm_noisyaer_phase_strength_sweep
+
+dataset:
+  name: make_moons
+  params:
+    n_samples: 300
+    noise: 0.2
+    random_seed: 42
+  test_size: 0.3
+  split_seed: 42
+  scale: True
+
+model:
+  kind: qsvm
+  qsvm:
+    feature_map: pauli
+    reps: 1
+    entanglement: linear
+    mode: noisy_aer
+    shots: 2048
+    seed: 42
+    scale_to_pi: true
+    C: 10.0
+    noise:
+      type: phase_damping
+      strength: 0.0           # overridden
+      params: {}
+      apply_to: single_qubit
+
+runs:
+  repeats: 10
+  vary_seed: true
+  seed_start: 0
+
+sweep:
+  path: model.qsvm.noise.strength
+  values: [0.01, 0.05, 0.1]

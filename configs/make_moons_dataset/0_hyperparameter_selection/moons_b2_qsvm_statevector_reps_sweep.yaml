@@ -1,0 +1,38 @@
+name: moons_b2_qsvm_statevector_reps_sweep
+
+dataset:
+  name: make_moons
+  params:
+    n_samples: 300
+    noise: 0.2
+    random_seed: 42
+  test_size: 0.3
+  split_seed: 42
+  scale: true
+  pca_components: null
+  max_samples: null
+
+model:
+  kind: qsvm
+  qsvm:
+    feature_map: pauli
+    reps: 1       # overridden
+    entanglement: linear
+    mode: statevector
+    shots: null
+    seed: 42
+    scale_to_pi: true
+    C: 10.0
+    noise:
+      type: none
+      strength: 0.0
+      params: {}
+      apply_to: all
+
+runs:
+  repeats: 1
+  vary_seed: False
+
+sweep:
+  path: model.qsvm.reps
+  values: [1, 2, 3]

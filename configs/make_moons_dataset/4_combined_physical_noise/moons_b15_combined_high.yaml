@@ -1,0 +1,36 @@
+name: moons_b15_combined_high
+
+dataset:
+  name: make_moons
+  params:
+    n_samples: 300
+    noise: 0.2
+    random_seed: 42
+  test_size: 0.3
+  split_seed: 42
+  scale: True
+
+model:
+  kind: qsvm
+  qsvm:
+    feature_map: pauli
+    reps: 1
+    entanglement: linear
+    mode: noisy_aer
+    shots: 2048
+    seed: 42
+    scale_to_pi: true
+    C: 10.0
+    noise:
+      type: combined
+      strength: 1.0
+      params:
+        depol: 0.1
+        amp: 0.1
+        phase: 0.1
+      apply_to: all
+
+runs:
+  repeats: 10
+  vary_seed: true
+  seed_start: 0

@@ -1,0 +1,22 @@
+name: banknote_b0_classical_baseline
+
+dataset:
+  name: banknote
+  params:
+    path: data/data_banknote_authentication.txt
+  test_size: 0.3
+  split_seed: 42
+  scale: true
+  max_samples: 300
+
+model:
+  kind: classical_svm
+  classical_svm:
+    kernel: rbf
+    C: 10.0
+    gamma: scale
+
+runs:
+  repeats: 10
+  vary_seed: True
+  seed_start: 0
