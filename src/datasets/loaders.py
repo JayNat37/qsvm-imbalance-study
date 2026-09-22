@@ -7,7 +7,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 from src.datasets.config import DatasetConfig
-from sklearn.datasets import make_moons
+from sklearn.datasets import make_moons, fetch_openml, load_breast_cancer
 
 
 def _as_numpy(X, y) -> Tuple[np.ndarray, np.ndarray]:
@@ -45,6 +45,36 @@ def _load_banknote(path: str) -> tuple[np.ndarray, np.ndarray]:
     return X, y
 
 
+def _load_mnist_pair(class_a: int, class_b: int) -> tuple[np.ndarray, np.ndarray]:
+    """Load an MNIST digit-pair subset from OpenML, remapped to labels {0, 1}."""
+    bunch = fetch_openml("mnist_784", version=1, as_frame=False)
+    X = bunch.data
+    y = bunch.target.astype(int)
+
+    mask = (y == class_a) | (y == class_b)
+    X, y = X[mask], y[mask]
+    y = np.where(y == class_a, 0, 1)
+    return X, y
+
+
+def _load_fashion_mnist_pair(class_a: int, class_b: int) -> tuple[np.ndarray, np.ndarray]:
+    """Load a Fashion-MNIST category-pair subset from OpenML, remapped to labels {0, 1}."""
+    bunch = fetch_openml("Fashion-MNIST", version=1, as_frame=False)
+    X = bunch.data
+    y = bunch.target.astype(int)
+
+    mask = (y == class_a) | (y == class_b)
+    X, y = X[mask], y[mask]
+    y = np.where(y == class_a, 0, 1)
+    return X, y
+
+
+def _load_breast_cancer() -> tuple[np.ndarray, np.ndarray]:
+    """Load the Breast Cancer Wisconsin dataset (already binary: 0=malignant, 1=benign)."""
+    X, y = load_breast_cancer(return_X_y=True)
+    return X, y
+
+
 def load_dataset_raw(cfg: DatasetConfig) -> Tuple[np.ndarray, np.ndarray]:
     """
     Load a dataset specified by the configuration and return 
@@ -66,6 +96,22 @@ def load_dataset_raw(cfg: DatasetConfig) -> Tuple[np.ndarray, np.ndarray]:
         random_seed = int(p.get("random_seed", 42))
 
         X, y = make_moons(n_samples=n_samples, noise=noise, random_state=random_seed)
+        X, y = _as_numpy(X, y)
+
+    elif name == "mnist_01":
+        class_a = int(p.get("class_a", 0))
+        class_b = int(p.get("class_b", 1))
+        X, y = _load_mnist_pair(class_a, class_b)
+        X, y = _as_numpy(X, y)
+
+    elif name == "fashion_mnist":
+        class_a = int(p.get("class_a", 0))
+        class_b = int(p.get("class_b", 1))
+        X, y = _load_fashion_mnist_pair(class_a, class_b)
+        X, y = _as_numpy(X, y)
+
+    elif name == "breast_cancer":
+        X, y = _load_breast_cancer()
         X, y = _as_numpy(X, y)
 
     else:

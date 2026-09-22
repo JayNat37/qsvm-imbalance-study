@@ -45,6 +45,8 @@ def _build_dataset(run_cfg: Dict[str, Any]):
         scale=bool(d.get("scale", True)),
         pca_components=d.get("pca_components", None),
         max_samples=d.get("max_samples", None),
+        minmax_scale=bool(d.get("minmax_scale", False)),
+        cap_imbalance_to_available=bool(d.get("cap_imbalance_to_available", False)),
     )
 
     X, y = load_dataset_raw(dcfg)
@@ -96,6 +98,7 @@ def _run_classical(run_cfg: Dict[str, Any], X_train, X_test, y_train, y_test):
         C=float(c.get("C", 1.0)),
         gamma=c.get("gamma", "scale"),
         degree=int(c.get("degree", 3)),
+        class_weight=c.get("class_weight"),
     )
     fit_time = time.time() - t0
 

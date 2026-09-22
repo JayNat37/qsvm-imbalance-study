@@ -1,0 +1,35 @@
+name: mnist_imbalance_frac60_qsvm_noiseless
+
+dataset:
+  name: mnist_01
+  params:
+    fixed_size: 100
+    imbalance_fraction: 0.6
+  test_size: 0.3
+  split_seed: 42
+  scale: true
+  pca_components: 5
+  max_samples: 1000
+  minmax_scale: true
+
+model:
+  kind: qsvm
+  qsvm:
+    feature_map: zz
+    reps: 1
+    entanglement: linear
+    mode: noisy_aer
+    shots: 1024
+    seed: 42
+    scale_to_pi: false
+    C: 10
+    noise:
+      type: none
+      strength: 0.0
+      params: {}
+      apply_to: all
+
+runs:
+  repeats: 1
+  vary_seed: True
+  seed_start: 0

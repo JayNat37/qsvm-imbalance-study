@@ -61,6 +61,17 @@ This project investigates the impact of quantum noise on Quantum Support Vector 
 │   │       ├── moons_b13_combined_low.yaml
 │   │       ├── moons_b14_combined_medium.yaml
 │   │       └── moons_b15_combined_high.yaml
+│   ├── mnist_imbalance
+│   │   ├── mnist_imbalance_frac50_classical_svm.yaml
+│   │   ├── mnist_imbalance_frac50_qsvm_noiseless.yaml
+│   │   ├── mnist_imbalance_frac60_classical_svm.yaml
+│   │   ├── mnist_imbalance_frac60_qsvm_noiseless.yaml
+│   │   ├── mnist_imbalance_frac70_classical_svm.yaml
+│   │   ├── mnist_imbalance_frac70_qsvm_noiseless.yaml
+│   │   ├── mnist_imbalance_frac80_classical_svm.yaml
+│   │   ├── mnist_imbalance_frac80_qsvm_noiseless.yaml
+│   │   ├── mnist_imbalance_frac90_classical_svm.yaml
+│   │   └── mnist_imbalance_frac90_qsvm_noiseless.yaml
 │   └── run_matrix.yaml
 ├── data
 │   └── data_banknote_authentication.txt
@@ -104,14 +115,17 @@ This project investigates the impact of quantum noise on Quantum Support Vector 
     │   ├── metrics.py
     │   ├── run_experiment.py
     │   └── run_matrix.py
-    └── qsvm
-        ├── backends
-        │   ├── noisy_aer.py
-        │   └── statevector.py
-        ├── config.py
-        ├── feature_maps.py
-        ├── kernel.py
-        └── noise.py
+    ├── qsvm
+    │   ├── backends
+    │   │   ├── noisy_aer.py
+    │   │   └── statevector.py
+    │   ├── config.py
+    │   ├── feature_maps.py
+    │   ├── kernel.py
+    │   └── noise.py
+    └── ui
+        ├── app.py
+        └── tuning.py
 ```
 
 # User Guide
@@ -186,7 +200,14 @@ experiments can be created by editing these configuration files.
 | Dataset | `split_seed` | Random seed for train-test splitting. |
 | Dataset | `scale` | Optional preprocessing flag. |
 | Dataset | `pca_components` | Optional PCA dimensionality. |
+| Dataset | `max_samples` | Optional cap on the pool size before splitting. |
+| Dataset | `minmax_scale` | Optional MinMax scaling to `[0, 1]` after PCA. |
+| Dataset | `cap_imbalance_to_available` | If `True`, fixed-size imbalance sampling reduces to whatever class counts are available instead of raising. |
+| Dataset `params` | `fixed_size` | Fixed training-set size for class-imbalance sampling. |
+| Dataset `params` | `imbalance_fraction` | Target class-0 fraction of the fixed-size training set. |
+| Dataset `params` | `class_a`, `class_b` | Digit/category pair to compare, for `mnist_01` and `fashion_mnist` (default `0`, `1`). |
 | Model | `kind` | Either `classical_svm` or `qsvm`. |
+| Model (Classical) | `class_weight` | `None` or `balanced`; reweights the misclassification penalty inversely to class frequency. |
 | Model (QSVM) | `feature_map` | Quantum feature map: `zz` or `pauli`. |
 | Model (QSVM) | `reps` | Number of repetitions of the feature map circuit. |
 | Model (QSVM) | `entanglement` | Entanglement pattern: `full`, `linear`, or `circular`. |
@@ -236,6 +257,30 @@ The results of each experiment are written to the
 `qsvm-noise-project/results` directory. The output file name is
 determined by the `name` field defined at the top of the corresponding
 experiment configuration file.
+
+### MNIST Class-Imbalance Replication Study
+
+`configs/mnist_imbalance/` reproduces a class-imbalance experiment from
+Josiah Chan's dissertation ([`qml-dissertation`](https://github.com/josiahwkc/qml-dissertation)):
+classical SVM vs. QSVM on MNIST digits 0-vs-1, PCA-reduced to 5
+components, with a fixed 100-sample training set swept across class-0
+fractions of 0.5, 0.6, 0.7, 0.8, and 0.9. Ten YAML configs (one classical,
+one QSVM per fraction) can be run individually with `run_experiment`, as
+described above.
+
+The dataset itself (`mnist_01`, and its generalisation `fashion_mnist`)
+is fetched from OpenML on first use and cached locally by scikit-learn.
+Both accept `class_a`/`class_b` parameters to compare any two digit or
+category labels, not just 0 vs. 1.
+
+The QSVM configs use `mode: noisy_aer` with 1024 shots and no noise
+channel, and `minmax_scale: true` with `scale_to_pi: false` on the
+dataset, matching the shot-sampled kernel and `[0, 1]` feature encoding
+used in the original study — rather than this project's exact
+`statevector` kernel and `[-π, π]` encoding used elsewhere. The classical
+`C`/`gamma` values were obtained by running the original dissertation's
+own tuning code against its own MNIST data (see `src/ui/tuning.py` for
+an equivalent, reusable tuner built into this project's interactive UI).
 
 ### Producing Plots and Statistical Analysis
 
@@ -331,3 +376,49 @@ replace or uncomment the relevant file paths block, and then run the
 script.
 
 In both cases, statistical results are printed to the terminal.
+
+## Interactive UI
+
+`src/ui/app.py` is a [Streamlit](https://streamlit.io) app for running
+classical-SVM-vs-QSVM comparisons interactively, without hand-writing a
+YAML config. It reuses the same dataset, preprocessing, classical, and
+QSVM code paths as `run_experiment.py`.
+
+Run it from the project root with the environment active:
+
+    streamlit run src/ui/app.py
+
+Features:
+
+- **Datasets** — `mnist_01`, `fashion_mnist`, `breast_cancer`, `banknote`,
+  and `make_moons`. For `mnist_01` and `fashion_mnist`, any two digit or
+  category labels can be compared (not just the default 0 vs. 1), via
+  `class_a`/`class_b` fields in the sidebar.
+- **Single runs** — configure dataset, preprocessing, classical SVM, and
+  QSVM parameters in the sidebar and run a paired classical/QSVM
+  comparison immediately.
+- **Queue** — add several parameter combinations to a queue and run them
+  back-to-back, with a live elapsed-time / estimated-time-remaining
+  display and the ability to remove not-yet-started items.
+- **Tune hyperparameters** — grid search classical (`C`, `gamma`,
+  `class_weight`) and QSVM (`reps`, `entanglement`, `C`) hyperparameters
+  against a validation split carved out of the current training pool
+  (the QSVM search uses the exact `statevector` kernel for speed); apply
+  the best combination found directly to the sidebar with one click. The
+  grid itself is configurable via the "Grid settings" popover.
+- **3D imbalance sweep** — sweep training-set size × class-0 fraction over
+  a grid (min/max/step for each axis), queuing one classical+QSVM pair per
+  grid point; optionally re-tune hyperparameters at every point instead of
+  reusing one fixed configuration across the whole sweep.
+- **3D imbalance manifold** — pick any past sweep and view it as an
+  interactive, rotatable Plotly 3D scatter (size × imbalance × accuracy),
+  with independent toggles for showing classical and/or QSVM. Every sweep
+  point is saved permanently, so past sweeps can be revisited without
+  re-running them.
+- **Run history** — every run (single, queued, or from a sweep) is logged
+  to `results/ui_run_history.jsonl` and shown in a sortable, selectable
+  table; select rows to plot accuracy vs. class-imbalance fraction, with
+  point size encoding training-set size.
+
+`results/ui_run_history.jsonl` is local exploration history rather than a
+designed experiment output, so it is excluded from version control.

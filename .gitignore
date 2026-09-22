@@ -2,3 +2,13 @@
 __pycache__/
 *.py[cod]
 .DS_Store
+
+# Local environment
+.venv/
+
+# Claude Code local tooling (not part of the project)
+.claude/
+.agents/
+
+# Ad-hoc UI exploration history (not a designed experiment)
+results/ui_run_history.jsonl
