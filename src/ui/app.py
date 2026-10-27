@@ -65,11 +65,15 @@ def flatten_history(records: list[dict]) -> pd.DataFrame:
             "q_acc": q["metrics"]["accuracy"],
             "c_f1": c["metrics"]["f1"],
             "q_f1": q["metrics"]["f1"],
+            "c_precision": c["metrics"]["precision"],
+            "q_precision": q["metrics"]["precision"],
+            "c_recall": c["metrics"]["recall"],
+            "q_recall": q["metrics"]["recall"],
             "pca": d.get("pca_components"),
             "split_seed": d.get("split_seed"),
             "c_kernel": c["params"]["kernel"],
             "c_C": c["params"]["C"],
-            "c_gamma": c["params"]["gamma"],
+            "c_gamma": str(c["params"]["gamma"]),  # mixes strings ("scale") and floats across rows otherwise
             "c_class_weight": c["params"].get("class_weight"),
             "c_time_s": round(c["time"], 3),
             "q_feature_map": q["params"]["feature_map"],
@@ -78,6 +82,7 @@ def flatten_history(records: list[dict]) -> pd.DataFrame:
             "q_mode": q["params"]["mode"],
             "q_shots": q["params"]["shots"],
             "q_C": q["params"]["C"],
+            "q_class_weight": q["params"].get("class_weight"),
             "q_time_s": round(q["time"], 3),
             "run_id": r["run_id"],
             "sweep_id": r.get("sweep_id"),
@@ -85,6 +90,11 @@ def flatten_history(records: list[dict]) -> pd.DataFrame:
     df = pd.DataFrame(rows)
     if not df.empty:
         df["timestamp"] = pd.to_datetime(df["timestamp"])
+        # Exact minority/majority counts, derived from fixed_size/imbalance_frac (round-trips
+        # exactly for absolute-count runs, since imbalance_frac was itself computed from counts).
+        has_imb = df["fixed_size"].notna() & df["imbalance_frac"].notna()
+        df["majority_count"] = np.where(has_imb, (df["fixed_size"] * df["imbalance_frac"]).round(), np.nan)
+        df["minority_count"] = np.where(has_imb, df["fixed_size"] - df["majority_count"], np.nan)
     return df
 
 
@@ -148,7 +158,7 @@ def run_pair(dataset_cfg: DatasetConfig, classical_params: dict, qsvm_params: di
     t1 = time.time()
     K_train = kernel.compute(X_train, X_train)
     K_test = kernel.compute(X_test, X_train)
-    clf = SVC(kernel="precomputed", C=qcfg.C)
+    clf = SVC(kernel="precomputed", C=qcfg.C, class_weight=qsvm_params.get("class_weight"))
     clf.fit(K_train, y_train)
     y_pred_q = clf.predict(K_test)
     q_time = time.time() - t1
@@ -208,9 +218,41 @@ def make_label(dataset_name: str, dataset_params: dict, classical_params: dict, 
     q = f"{qsvm_params['feature_map']}/{qsvm_params['mode']}"
     if qsvm_params["mode"] == "noisy_aer":
         q += f"/{qsvm_params['shots']}sh"
-    cw = classical_params.get("class_weight") or "none"
-    return (f"{dataset_name} [{imb}] · classical(C={classical_params['C']}, γ={classical_params['gamma']}, cw={cw}) "
-            f"· qsvm({q}, C={qsvm_params['C']})")
+    c_cw = classical_params.get("class_weight") or "none"
+    q_cw = qsvm_params.get("class_weight") or "none"
+    return (f"{dataset_name} [{imb}] · classical(C={classical_params['C']}, γ={classical_params['gamma']}, cw={c_cw}) "
+            f"· qsvm({q}, C={qsvm_params['C']}, cw={q_cw})")
+
+
+def build_queue_item(
+    dataset_name: str, dataset_params: dict, classical_params: dict, qsvm_params: dict,
+    test_size: float, split_seed: int, scale: bool, pca_components: int | None, max_samples: int | None,
+    minmax_scale: bool, sweep_id: str | None = None, tune_before_run: bool = False,
+    tune_grids: dict | None = None, label_prefix: str = "",
+) -> dict:
+    """Build a queue item dict with the given dataset/model settings."""
+    label = make_label(dataset_name, dataset_params, classical_params, qsvm_params)
+    return {
+        "id": str(uuid.uuid4()),
+        "status": "pending",
+        "label": f"{label_prefix}{label}" if label_prefix else label,
+        "dataset_name": dataset_name,
+        "dataset_params": dict(dataset_params),
+        "test_size": float(test_size),
+        "split_seed": int(split_seed),
+        "scale": bool(scale),
+        "pca_components": int(pca_components) if pca_components else None,
+        "max_samples": int(max_samples) if max_samples else None,
+        "minmax_scale": bool(minmax_scale),
+        "classical_params": dict(classical_params),
+        "qsvm_params": dict(qsvm_params),
+        "sweep_id": sweep_id,
+        "tune_before_run": tune_before_run,
+        "tune_grids": tune_grids,
+        "result": None,
+        "error": None,
+        "elapsed": None,
+    }
 
 
 def _item_workload(item: dict) -> tuple[str, float]:
@@ -250,6 +292,17 @@ def _range_values(start: float, stop: float, step: float) -> list[float]:
         return []
     n = int(round((stop - start) / step)) + 1
     return [round(start + i * step, 10) for i in range(n)]
+
+
+def tune_qsvm_over_feature_maps(X_tr, y_tr, X_val, y_val, feature_maps, **kwargs) -> dict:
+    """Run tune_qsvm once per feature map, keeping whichever wins on validation accuracy."""
+    best = None
+    for fm in feature_maps:
+        candidate = tune_qsvm(X_tr, y_tr, X_val, y_val, feature_map=fm, **kwargs)
+        candidate["feature_map"] = fm
+        if best is None or candidate["val_accuracy"] > best["val_accuracy"]:
+            best = candidate
+    return best
 
 
 # ---------------------------------------------------------------------------
@@ -299,8 +352,19 @@ max_samples = st.sidebar.number_input("max_samples", value=1000, min_value=10) i
 
 use_imbalance = st.sidebar.checkbox("Fixed-size class imbalance", value=True)
 if use_imbalance:
-    fixed_size = st.sidebar.number_input("Fixed train size", value=100, min_value=2, step=2)
-    imbalance_fraction = st.sidebar.slider("Class-0 fraction", 0.0, 1.0, 0.5, step=0.05)
+    imbalance_mode = st.sidebar.radio(
+        "Specify imbalance as", ["Fraction + size", "Absolute counts"], key="imbalance_mode",
+        help="'Absolute counts' lets you set exact class sizes, e.g. 2 minority examples against 100 majority.",
+    )
+    if imbalance_mode == "Fraction + size":
+        fixed_size = st.sidebar.number_input("Fixed train size", value=100, min_value=2, step=2, key="fixed_size_input")
+        imbalance_fraction = st.sidebar.slider("Class-0 fraction", 0.0, 1.0, 0.5, step=0.05, key="imbalance_fraction_input")
+    else:
+        n_class0 = st.sidebar.number_input("Class 0 count (majority)", value=97, min_value=1, step=1, key="n_class0_input")
+        n_class1 = st.sidebar.number_input("Class 1 count (minority)", value=3, min_value=1, step=1, key="n_class1_input")
+        fixed_size = int(n_class0) + int(n_class1)
+        imbalance_fraction = n_class0 / fixed_size
+        st.sidebar.caption(f"= fixed train size {fixed_size}, class-0 fraction {imbalance_fraction:.4f}")
     dataset_params["fixed_size"] = int(fixed_size)
     dataset_params["imbalance_fraction"] = float(imbalance_fraction)
 
@@ -316,6 +380,11 @@ c_class_weight_mode = st.sidebar.selectbox(
     help="'balanced' reweights the misclassification penalty inversely to class frequency — the standard fix for imbalanced training data.",
 )
 c_class_weight = None if c_class_weight_mode == "None" else "balanced"
+compare_class_weight = st.sidebar.checkbox(
+    "Also queue the class_weight-flipped variant", value=False, key="compare_class_weight",
+    help="When adding to the queue, also queue an identical run with class_weight flipped "
+         "(None <-> balanced) for both models, so you can compare them side by side in history.",
+)
 
 st.sidebar.header("QSVM")
 feature_map = st.sidebar.selectbox("Feature map", ["zz", "pauli"], key="feature_map")
@@ -323,6 +392,12 @@ reps = st.sidebar.number_input("reps", value=1, min_value=1, key="reps")
 entanglement = st.sidebar.selectbox("Entanglement", ["linear", "full", "circular"], key="entanglement")
 mode = st.sidebar.selectbox("Mode", ["statevector", "noisy_aer"], key="mode")
 q_C = st.sidebar.number_input("C (quantum)", value=10.0, min_value=0.0001, format="%.4f", key="q_C")
+q_class_weight_mode = st.sidebar.selectbox(
+    "class_weight (QSVM)", ["None", "balanced"], key="q_class_weight_mode",
+    help="Same mechanism as classical's class_weight, applied to the precomputed-kernel SVC after "
+         "the quantum kernel is computed. Often a no-op on easy tasks, a real lever on hard ones.",
+)
+q_class_weight = None if q_class_weight_mode == "None" else "balanced"
 scale_to_pi = st.sidebar.checkbox("scale_to_pi", value=False, key="scale_to_pi")
 q_seed = st.sidebar.number_input("QSVM seed", value=42, step=1, key="q_seed")
 
@@ -347,6 +422,11 @@ else:
 run_col1, run_col2 = st.sidebar.columns(2)
 run_clicked = run_col1.button("Run now", type="primary")
 add_to_queue_clicked = run_col2.button("Add to queue")
+add_comparison_clicked = st.sidebar.button(
+    "Add class_weight comparison (2 runs)", disabled=not compare_class_weight,
+    help="Queues the current settings plus an identical run with class_weight flipped for both "
+         "models. Enable 'Also queue the class_weight-flipped variant' above to use this.",
+)
 
 # ---------------------------------------------------------------------------
 # Main area
@@ -361,8 +441,8 @@ classical_params_current = {
 qsvm_params_current = {
     "feature_map": feature_map, "reps": int(reps), "entanglement": entanglement,
     "mode": mode, "shots": shots, "seed": int(q_seed), "scale_to_pi": bool(scale_to_pi),
-    "C": float(q_C), "noise_type": noise_type, "noise_strength": float(noise_strength),
-    "noise_apply_to": noise_apply_to,
+    "C": float(q_C), "class_weight": q_class_weight, "noise_type": noise_type,
+    "noise_strength": float(noise_strength), "noise_apply_to": noise_apply_to,
 }
 
 st.header("Tune hyperparameters")
@@ -390,6 +470,10 @@ with settings_col:
         )
 
         st.caption("QSVM grid")
+        grid_feature_maps = st.multiselect(
+            "feature_map values", ["zz", "pauli"], default=["zz"], key="grid_feature_map",
+            help="Search across feature maps too, not just reps/entanglement/C, matching what widened the QSVM re-tuning tests.",
+        )
         grid_reps = st.multiselect("reps values", _GRID_REPS_CHOICES, default=[1, 2, 3], key="grid_reps")
         grid_entanglement = st.multiselect(
             "entanglement values", _GRID_ENTANGLEMENT_CHOICES, default=["linear", "full"], key="grid_entanglement",
@@ -397,12 +481,18 @@ with settings_col:
         grid_c_qsvm = st.multiselect(
             "C values (QSVM)", _GRID_C_CHOICES, default=[0.1, 1.0, 10.0, 100.0], key="grid_c_qsvm",
         )
+        grid_class_weight_qsvm_labels = st.multiselect(
+            "class_weight values (QSVM)", _GRID_CLASS_WEIGHT_CHOICES, default=["None", "balanced"],
+            key="grid_class_weight_qsvm",
+        )
 
 if tune_clicked:
     empty_grids = [
         name for name, values in [
             ("classical C", grid_c_classical), ("gamma", grid_gamma), ("class_weight", grid_class_weight_labels),
-            ("QSVM reps", grid_reps), ("QSVM entanglement", grid_entanglement), ("QSVM C", grid_c_qsvm),
+            ("QSVM feature_map", grid_feature_maps), ("QSVM reps", grid_reps),
+            ("QSVM entanglement", grid_entanglement), ("QSVM C", grid_c_qsvm),
+            ("QSVM class_weight", grid_class_weight_qsvm_labels),
         ] if not values
     ]
     if empty_grids:
@@ -420,6 +510,7 @@ if tune_clicked:
             cap_imbalance_to_available=True,
         )
         class_weight_grid = tuple(None if v == "None" else v for v in grid_class_weight_labels)
+        class_weight_grid_qsvm = tuple(None if v == "None" else v for v in grid_class_weight_qsvm_labels)
         try:
             with st.spinner("Loading data and running grid search..."):
                 X_tune, y_tune = load_dataset_raw(tuning_dataset_cfg)
@@ -429,10 +520,11 @@ if tune_clicked:
                     X_tr, y_tr, X_val, y_val,
                     c_grid=grid_c_classical, gamma_grid=grid_gamma, class_weight_grid=class_weight_grid,
                 )
-                best_qsvm = tune_qsvm(
-                    X_tr, y_tr, X_val, y_val,
-                    feature_map=feature_map, scale_to_pi=bool(scale_to_pi), seed=int(split_seed),
+                best_qsvm = tune_qsvm_over_feature_maps(
+                    X_tr, y_tr, X_val, y_val, grid_feature_maps,
+                    scale_to_pi=bool(scale_to_pi), seed=int(split_seed),
                     reps_grid=grid_reps, entanglement_grid=grid_entanglement, c_grid=grid_c_qsvm,
+                    class_weight_grid=class_weight_grid_qsvm,
                 )
             st.session_state.tuning_result = {"classical": best_classical, "qsvm": best_qsvm}
         except Exception as e:
@@ -448,7 +540,8 @@ if st.session_state.tuning_result:
         st.caption(f"Validation accuracy: {bc['val_accuracy']:.3f}")
     with tcol2:
         bq = tr["qsvm"]
-        st.write(f"**Best QSVM**: reps={bq['reps']}, entanglement={bq['entanglement']}, C={bq['C']}")
+        st.write(f"**Best QSVM**: feature_map={bq['feature_map']}, reps={bq['reps']}, "
+                 f"entanglement={bq['entanglement']}, C={bq['C']}, class_weight={bq['class_weight'] or 'none'}")
         st.caption(f"Validation accuracy: {bq['val_accuracy']:.3f}")
 
     if st.button("Apply tuned values to sidebar"):
@@ -456,9 +549,11 @@ if st.session_state.tuning_result:
         pending = {
             "c_C": float(bc["C"]),
             "c_class_weight_mode": "None" if bc["class_weight"] is None else "balanced",
+            "feature_map": bq["feature_map"],
             "reps": int(bq["reps"]),
             "entanglement": bq["entanglement"],
             "q_C": float(bq["C"]),
+            "q_class_weight_mode": "None" if bq["class_weight"] is None else "balanced",
         }
         if bc["gamma"] in ("scale", "auto"):
             pending["c_gamma_mode"] = bc["gamma"]
@@ -471,25 +566,55 @@ if st.session_state.tuning_result:
 st.divider()
 st.header("3D imbalance sweep")
 st.caption(
-    "Sweep training-set size × class-0 fraction over a grid, running classical + QSVM at every "
+    "Sweep two axes of imbalance over a grid, running classical + QSVM at every "
     "point using the current sidebar settings, and add them all to the queue below."
 )
 
-sweep_col1, sweep_col2 = st.columns(2)
-with sweep_col1:
-    st.write("Training set size")
-    sweep_size_min = st.number_input("Size min", value=100, min_value=2, step=2, key="sweep_size_min")
-    sweep_size_max = st.number_input("Size max", value=300, min_value=2, step=2, key="sweep_size_max")
-    sweep_size_step = st.number_input("Size step", value=100, min_value=2, step=2, key="sweep_size_step")
-with sweep_col2:
-    st.write("Class-0 fraction")
-    sweep_frac_min = st.number_input("Fraction min", value=0.5, min_value=0.0, max_value=1.0, step=0.05, key="sweep_frac_min")
-    sweep_frac_max = st.number_input("Fraction max", value=0.9, min_value=0.0, max_value=1.0, step=0.05, key="sweep_frac_max")
-    sweep_frac_step = st.number_input("Fraction step", value=0.1, min_value=0.01, max_value=1.0, step=0.05, key="sweep_frac_step")
+sweep_mode = st.radio(
+    "Sweep by", ["Size × Fraction", "Majority count × Minority count"], key="sweep_mode", horizontal=True,
+    help=(
+        "'Size × Fraction' sweeps total training size against class-0 fraction. "
+        "'Majority × Minority' sweeps exact class counts directly — e.g. minority counts "
+        "1, 2, 3 against a range of majority counts."
+    ),
+)
 
-sweep_sizes = [int(v) for v in _range_values(sweep_size_min, sweep_size_max, sweep_size_step)]
-sweep_fracs = _range_values(sweep_frac_min, sweep_frac_max, sweep_frac_step)
-sweep_grid = [(s, f) for s in sweep_sizes for f in sweep_fracs]
+if sweep_mode == "Size × Fraction":
+    sweep_col1, sweep_col2 = st.columns(2)
+    with sweep_col1:
+        st.write("Training set size")
+        sweep_size_min = st.number_input("Size min", value=100, min_value=2, step=2, key="sweep_size_min")
+        sweep_size_max = st.number_input("Size max", value=300, min_value=2, step=2, key="sweep_size_max")
+        sweep_size_step = st.number_input("Size step", value=100, min_value=2, step=2, key="sweep_size_step")
+    with sweep_col2:
+        st.write("Class-0 fraction")
+        sweep_frac_min = st.number_input("Fraction min", value=0.5, min_value=0.0, max_value=1.0, step=0.05, key="sweep_frac_min")
+        sweep_frac_max = st.number_input("Fraction max", value=0.9, min_value=0.0, max_value=1.0, step=0.05, key="sweep_frac_max")
+        sweep_frac_step = st.number_input("Fraction step", value=0.1, min_value=0.01, max_value=1.0, step=0.05, key="sweep_frac_step")
+
+    sweep_sizes = [int(v) for v in _range_values(sweep_size_min, sweep_size_max, sweep_size_step)]
+    sweep_fracs = _range_values(sweep_frac_min, sweep_frac_max, sweep_frac_step)
+    sweep_grid = [(s + 0, f) for s in sweep_sizes for f in sweep_fracs]
+    sweep_grid_desc = f"{len(sweep_sizes)} sizes × {len(sweep_fracs)} fractions"
+else:
+    sweep_col1, sweep_col2 = st.columns(2)
+    with sweep_col1:
+        st.write("Minority class count (exact)")
+        sweep_minority_counts = st.multiselect(
+            "Minority counts", [1, 2, 3, 4, 5, 7, 10, 15, 20], default=[1, 2, 3], key="sweep_minority_counts",
+        )
+    with sweep_col2:
+        st.write("Majority class count")
+        sweep_majority_min = st.number_input("Majority min", value=47, min_value=1, step=1, key="sweep_majority_min")
+        sweep_majority_max = st.number_input("Majority max", value=197, min_value=1, step=1, key="sweep_majority_max")
+        sweep_majority_step = st.number_input("Majority step", value=50, min_value=1, step=1, key="sweep_majority_step")
+
+    sweep_majority_counts = [int(v) for v in _range_values(sweep_majority_min, sweep_majority_max, sweep_majority_step)]
+    sweep_grid = [
+        (n_min + n_maj, n_maj / (n_min + n_maj))
+        for n_min in sweep_minority_counts for n_maj in sweep_majority_counts
+    ]
+    sweep_grid_desc = f"{len(sweep_minority_counts)} minority counts × {len(sweep_majority_counts)} majority counts"
 
 tune_at_each_point = st.checkbox(
     "Tune hyperparameters at each point", value=False, key="sweep_tune_at_each_point",
@@ -512,16 +637,18 @@ if sweep_grid:
     )
     _tune_note = " (plus per-point tuning time, not included in this estimate)" if tune_at_each_point else ""
     st.caption(
-        f"{len(sweep_grid)} points ({len(sweep_sizes)} sizes × {len(sweep_fracs)} fractions) — "
+        f"{len(sweep_grid)} points ({sweep_grid_desc}) — "
         f"roughly {_est_total:.0f}s estimated once queued{_tune_note}."
     )
 else:
-    st.warning("Size/fraction range produced no grid points — check min/max/step.")
+    st.warning("This range produced no grid points — check the min/max/step or minority-count selection.")
 
 _sweep_empty_grids = [
     name for name, values in [
         ("classical C", grid_c_classical), ("gamma", grid_gamma), ("class_weight", grid_class_weight_labels),
-        ("QSVM reps", grid_reps), ("QSVM entanglement", grid_entanglement), ("QSVM C", grid_c_qsvm),
+        ("QSVM feature_map", grid_feature_maps), ("QSVM reps", grid_reps),
+        ("QSVM entanglement", grid_entanglement), ("QSVM C", grid_c_qsvm),
+        ("QSVM class_weight", grid_class_weight_qsvm_labels),
     ] if not values
 ] if tune_at_each_point else []
 if tune_at_each_point and _sweep_empty_grids:
@@ -533,36 +660,23 @@ if st.button("Add sweep to queue", disabled=not sweep_grid or bool(_sweep_empty_
         "c_classical": list(grid_c_classical),
         "gamma": list(grid_gamma),
         "class_weight": tuple(None if v == "None" else v for v in grid_class_weight_labels),
+        "feature_maps": list(grid_feature_maps),
         "reps": list(grid_reps),
         "entanglement": list(grid_entanglement),
         "c_qsvm": list(grid_c_qsvm),
+        "class_weight_qsvm": tuple(None if v == "None" else v for v in grid_class_weight_qsvm_labels),
     } if tune_at_each_point else None
     for s, f in sweep_grid:
         sweep_dataset_params = dict(dataset_params)
         sweep_dataset_params["fixed_size"] = int(s)
         sweep_dataset_params["imbalance_fraction"] = float(f)
-        label_prefix = "[sweep, tuned]" if tune_at_each_point else "[sweep]"
-        sweep_item = {
-            "id": str(uuid.uuid4()),
-            "status": "pending",
-            "label": f"{label_prefix} {make_label(dataset_name, sweep_dataset_params, classical_params_current, qsvm_params_current)}",
-            "dataset_name": dataset_name,
-            "dataset_params": sweep_dataset_params,
-            "test_size": float(test_size),
-            "split_seed": int(split_seed),
-            "scale": bool(scale),
-            "pca_components": int(pca_components) if pca_components else None,
-            "max_samples": int(max_samples) if max_samples else None,
-            "minmax_scale": bool(minmax_scale),
-            "classical_params": classical_params_current,
-            "qsvm_params": qsvm_params_current,
-            "sweep_id": sweep_id,
-            "tune_before_run": bool(tune_at_each_point),
-            "tune_grids": tune_grids,
-            "result": None,
-            "error": None,
-            "elapsed": None,
-        }
+        label_prefix = "[sweep, tuned] " if tune_at_each_point else "[sweep] "
+        sweep_item = build_queue_item(
+            dataset_name, sweep_dataset_params, classical_params_current, qsvm_params_current,
+            test_size, split_seed, scale, pca_components, max_samples, minmax_scale,
+            sweep_id=sweep_id, tune_before_run=bool(tune_at_each_point), tune_grids=tune_grids,
+            label_prefix=label_prefix,
+        )
         st.session_state.queue.append(sweep_item)
     st.success(f"Added {len(sweep_grid)} points to the queue (sweep {sweep_id[:8]}). Scroll down to run the queue.")
     st.rerun()
@@ -570,28 +684,29 @@ if st.button("Add sweep to queue", disabled=not sweep_grid or bool(_sweep_empty_
 st.divider()
 
 if add_to_queue_clicked:
-    item = {
-        "id": str(uuid.uuid4()),
-        "status": "pending",
-        "label": make_label(dataset_name, dataset_params, classical_params_current, qsvm_params_current),
-        "dataset_name": dataset_name,
-        "dataset_params": dict(dataset_params),
-        "test_size": float(test_size),
-        "split_seed": int(split_seed),
-        "scale": bool(scale),
-        "pca_components": int(pca_components) if pca_components else None,
-        "max_samples": int(max_samples) if max_samples else None,
-        "minmax_scale": bool(minmax_scale),
-        "classical_params": classical_params_current,
-        "qsvm_params": qsvm_params_current,
-        "sweep_id": None,
-        "tune_before_run": False,
-        "tune_grids": None,
-        "result": None,
-        "error": None,
-        "elapsed": None,
-    }
+    item = build_queue_item(
+        dataset_name, dataset_params, classical_params_current, qsvm_params_current,
+        test_size, split_seed, scale, pca_components, max_samples, minmax_scale,
+    )
     st.session_state.queue.append(item)
+
+if add_comparison_clicked:
+    flipped_classical = {**classical_params_current, "class_weight": "balanced" if c_class_weight is None else None}
+    flipped_qsvm = {**qsvm_params_current, "class_weight": "balanced" if q_class_weight is None else None}
+    original_item = build_queue_item(
+        dataset_name, dataset_params, classical_params_current, qsvm_params_current,
+        test_size, split_seed, scale, pca_components, max_samples, minmax_scale,
+        label_prefix="[cw compare] ",
+    )
+    flipped_item = build_queue_item(
+        dataset_name, dataset_params, flipped_classical, flipped_qsvm,
+        test_size, split_seed, scale, pca_components, max_samples, minmax_scale,
+        label_prefix="[cw compare, flipped] ",
+    )
+    st.session_state.queue.append(original_item)
+    st.session_state.queue.append(flipped_item)
+    st.success("Added both class_weight variants to the queue.")
+    st.rerun()
 
 if run_clicked:
     dataset_cfg = DatasetConfig(
@@ -755,12 +870,13 @@ else:
                             X_tr_pt, y_tr_pt, X_val_pt, y_val_pt,
                             c_grid=tg["c_classical"], gamma_grid=tg["gamma"], class_weight_grid=tg["class_weight"],
                         )
-                        best_q_pt = tune_qsvm(
+                        best_q_pt = tune_qsvm_over_feature_maps(
                             X_tr_pt, y_tr_pt, X_val_pt, y_val_pt,
-                            feature_map=next_item["qsvm_params"]["feature_map"],
+                            tg.get("feature_maps", [next_item["qsvm_params"]["feature_map"]]),
                             scale_to_pi=next_item["qsvm_params"]["scale_to_pi"],
                             seed=next_item["split_seed"],
                             reps_grid=tg["reps"], entanglement_grid=tg["entanglement"], c_grid=tg["c_qsvm"],
+                            class_weight_grid=tg.get("class_weight_qsvm", (None, "balanced")),
                         )
                         next_item["classical_params"] = {
                             **next_item["classical_params"],
@@ -768,7 +884,9 @@ else:
                         }
                         next_item["qsvm_params"] = {
                             **next_item["qsvm_params"],
-                            "reps": best_q_pt["reps"], "entanglement": best_q_pt["entanglement"], "C": best_q_pt["C"],
+                            "feature_map": best_q_pt["feature_map"], "reps": best_q_pt["reps"],
+                            "entanglement": best_q_pt["entanglement"], "C": best_q_pt["C"],
+                            "class_weight": best_q_pt["class_weight"],
                         }
 
                     result = run_pair(dataset_cfg, next_item["classical_params"], next_item["qsvm_params"])
@@ -807,6 +925,12 @@ else:
             "q_acc": st.column_config.NumberColumn("QSVM acc", format="%.3f"),
             "c_f1": st.column_config.NumberColumn("Classical F1", format="%.3f"),
             "q_f1": st.column_config.NumberColumn("QSVM F1", format="%.3f"),
+            "c_precision": st.column_config.NumberColumn("Classical precision", format="%.3f"),
+            "q_precision": st.column_config.NumberColumn("QSVM precision", format="%.3f"),
+            "c_recall": st.column_config.NumberColumn("Classical recall", format="%.3f"),
+            "q_recall": st.column_config.NumberColumn("QSVM recall", format="%.3f"),
+            "majority_count": st.column_config.NumberColumn("Majority count", format="%d"),
+            "minority_count": st.column_config.NumberColumn("Minority count", format="%d"),
         },
     )
 
@@ -814,28 +938,36 @@ else:
         HISTORY_FILE.unlink(missing_ok=True)
         st.rerun()
 
-    st.subheader("Accuracy vs. imbalance")
+    st.subheader("Metric vs. imbalance")
+
+    _METRIC_COLUMNS = {"Accuracy": "acc", "F1": "f1", "Precision": "precision", "Recall": "recall"}
+    metric_choice_2d = st.radio(
+        "Metric", list(_METRIC_COLUMNS.keys()), key="metric_choice_2d", horizontal=True,
+        help="F1/precision/recall matter more than accuracy when classes are imbalanced — "
+             "a model can look good on accuracy while barely detecting the minority class.",
+    )
+    metric_col_2d = _METRIC_COLUMNS[metric_choice_2d]
 
     selected_rows = df.iloc[selection_event.selection.rows]
     plottable = selected_rows.dropna(subset=["imbalance_frac", "fixed_size"])
     skipped = len(selected_rows) - len(plottable)
 
     if selected_rows.empty:
-        st.info("Select one or more runs in the table above to plot accuracy vs. imbalance.")
+        st.info("Select one or more runs in the table above to plot a metric vs. imbalance.")
     elif plottable.empty:
         st.warning("None of the selected runs used a fixed-size class imbalance, so there's nothing to plot.")
     else:
         plot_df = pd.concat([
-            plottable.assign(model="Classical", accuracy=plottable["c_acc"]),
-            plottable.assign(model="QSVM", accuracy=plottable["q_acc"]),
-        ])[["imbalance_frac", "accuracy", "fixed_size", "model"]]
+            plottable.assign(model="Classical", value=plottable[f"c_{metric_col_2d}"]),
+            plottable.assign(model="QSVM", value=plottable[f"q_{metric_col_2d}"]),
+        ])[["imbalance_frac", "value", "fixed_size", "model"]]
 
         chart = alt.Chart(plot_df).mark_circle(opacity=0.75).encode(
             x=alt.X("imbalance_frac:Q", title="Class-0 fraction (imbalance)", scale=alt.Scale(domain=[-0.05, 1.05])),
-            y=alt.Y("accuracy:Q", title="Accuracy", scale=alt.Scale(domain=[-0.05, 1.05])),
+            y=alt.Y("value:Q", title=metric_choice_2d, scale=alt.Scale(domain=[-0.05, 1.05])),
             color=alt.Color("model:N", title="Model"),
             size=alt.Size("fixed_size:Q", title="Training set size"),
-            tooltip=["model", "imbalance_frac", "accuracy", "fixed_size"],
+            tooltip=["model", "imbalance_frac", "value", "fixed_size"],
         )
         st.altair_chart(chart)
         st.caption(
@@ -858,22 +990,27 @@ else:
     sweep_records = [r for r in history if r.get("sweep_id") == selected_sweep_id]
     sweep_df = flatten_history(sweep_records)
 
-    vis_col1, vis_col2 = st.columns(2)
+    vis_col1, vis_col2, vis_col3 = st.columns([1, 1, 2])
     with vis_col1:
         show_classical_3d = st.checkbox("Show classical", value=True, key="show_classical_3d")
     with vis_col2:
         show_qsvm_3d = st.checkbox("Show QSVM", value=True, key="show_qsvm_3d")
+    with vis_col3:
+        metric_choice_3d = st.radio(
+            "Z-axis metric", list(_METRIC_COLUMNS.keys()), key="metric_choice_3d", horizontal=True,
+        )
+    metric_col_3d = _METRIC_COLUMNS[metric_choice_3d]
 
     fig = go.Figure()
     if show_classical_3d:
         fig.add_trace(go.Scatter3d(
-            x=sweep_df["fixed_size"], y=sweep_df["imbalance_frac"], z=sweep_df["c_acc"],
+            x=sweep_df["fixed_size"], y=sweep_df["imbalance_frac"], z=sweep_df[f"c_{metric_col_3d}"],
             mode="markers", name="Classical",
             marker=dict(size=5, color="royalblue"),
         ))
     if show_qsvm_3d:
         fig.add_trace(go.Scatter3d(
-            x=sweep_df["fixed_size"], y=sweep_df["imbalance_frac"], z=sweep_df["q_acc"],
+            x=sweep_df["fixed_size"], y=sweep_df["imbalance_frac"], z=sweep_df[f"q_{metric_col_3d}"],
             mode="markers", name="QSVM",
             marker=dict(size=5, color="firebrick"),
         ))
@@ -885,7 +1022,7 @@ else:
             scene=dict(
                 xaxis_title="Training set size",
                 yaxis_title="Class-0 fraction (imbalance)",
-                zaxis_title="Accuracy",
+                zaxis_title=metric_choice_3d,
                 yaxis=dict(range=[-0.05, 1.05]),
                 zaxis=dict(range=[-0.05, 1.05]),
             ),
