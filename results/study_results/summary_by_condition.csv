@@ -1,0 +1,385 @@
+experiment,dataset,qubits_or_pca_dim,train_size,minority_count,model,tuning,protocol_flag,mean_balanced_accuracy,std_across_runs,n_runs
+E10_real_screen_no_bandwidth,fashion0v6,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.806,0.0253,5
+E10_real_screen_no_bandwidth,fashion0v6,2,100,50,qsvm,tuned incl. bandwidth,valid,0.808,0.0375,5
+E10_real_screen_no_bandwidth,fashion0v6,3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.806,0.0185,5
+E10_real_screen_no_bandwidth,fashion0v6,3,100,50,qsvm,tuned incl. bandwidth,valid,0.788,0.0309,5
+E10_real_screen_no_bandwidth,fashion0v6,5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.8,0.0267,5
+E10_real_screen_no_bandwidth,fashion0v6,5,100,50,qsvm,tuned incl. bandwidth,valid,0.781,0.0248,5
+E10_real_screen_no_bandwidth,fashion2v4,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.658,0.0513,5
+E10_real_screen_no_bandwidth,fashion2v4,2,100,50,qsvm,tuned incl. bandwidth,valid,0.637,0.0349,5
+E10_real_screen_no_bandwidth,fashion2v4,3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.688,0.0271,5
+E10_real_screen_no_bandwidth,fashion2v4,3,100,50,qsvm,tuned incl. bandwidth,valid,0.641,0.0542,5
+E10_real_screen_no_bandwidth,fashion2v4,5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.692,0.0404,5
+E10_real_screen_no_bandwidth,fashion2v4,5,100,50,qsvm,tuned incl. bandwidth,valid,0.653,0.0573,5
+E10_real_screen_no_bandwidth,mnist0v1,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.995,0.0035,5
+E10_real_screen_no_bandwidth,mnist0v1,2,100,50,qsvm,tuned incl. bandwidth,valid,0.989,0.0082,5
+E10_real_screen_no_bandwidth,mnist0v1,3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.997,0.0027,5
+E10_real_screen_no_bandwidth,mnist0v1,3,100,50,qsvm,tuned incl. bandwidth,valid,0.99,0.0127,5
+E10_real_screen_no_bandwidth,mnist0v1,5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.997,0.0045,5
+E10_real_screen_no_bandwidth,mnist0v1,5,100,50,qsvm,tuned incl. bandwidth,valid,0.99,0.0061,5
+E10_real_screen_no_bandwidth,mnist0v8,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.929,0.021,5
+E10_real_screen_no_bandwidth,mnist0v8,2,100,50,qsvm,tuned incl. bandwidth,valid,0.928,0.0228,5
+E10_real_screen_no_bandwidth,mnist0v8,3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.942,0.0266,5
+E10_real_screen_no_bandwidth,mnist0v8,3,100,50,qsvm,tuned incl. bandwidth,valid,0.918,0.0256,5
+E10_real_screen_no_bandwidth,mnist0v8,5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.956,0.0261,5
+E10_real_screen_no_bandwidth,mnist0v8,5,100,50,qsvm,tuned incl. bandwidth,valid,0.942,0.0179,5
+E10_real_screen_no_bandwidth,mnist1v5,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.965,0.0184,5
+E10_real_screen_no_bandwidth,mnist1v5,2,100,50,qsvm,tuned incl. bandwidth,valid,0.968,0.0189,5
+E10_real_screen_no_bandwidth,mnist1v5,3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.982,0.0091,5
+E10_real_screen_no_bandwidth,mnist1v5,3,100,50,qsvm,tuned incl. bandwidth,valid,0.972,0.0115,5
+E10_real_screen_no_bandwidth,mnist1v5,5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.986,0.0156,5
+E10_real_screen_no_bandwidth,mnist1v5,5,100,50,qsvm,tuned incl. bandwidth,valid,0.983,0.0057,5
+E10_real_screen_no_bandwidth,mnist2v4,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.96,0.0117,5
+E10_real_screen_no_bandwidth,mnist2v4,2,100,50,qsvm,tuned incl. bandwidth,valid,0.94,0.0162,5
+E10_real_screen_no_bandwidth,mnist2v4,3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.96,0.0087,5
+E10_real_screen_no_bandwidth,mnist2v4,3,100,50,qsvm,tuned incl. bandwidth,valid,0.943,0.0168,5
+E10_real_screen_no_bandwidth,mnist2v4,5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.959,0.0082,5
+E10_real_screen_no_bandwidth,mnist2v4,5,100,50,qsvm,tuned incl. bandwidth,valid,0.957,0.0057,5
+E10_real_screen_no_bandwidth,mnist3v5,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.727,0.0319,5
+E10_real_screen_no_bandwidth,mnist3v5,2,100,50,qsvm,tuned incl. bandwidth,valid,0.728,0.0335,5
+E10_real_screen_no_bandwidth,mnist3v5,3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.719,0.0386,5
+E10_real_screen_no_bandwidth,mnist3v5,3,100,50,qsvm,tuned incl. bandwidth,valid,0.708,0.0455,5
+E10_real_screen_no_bandwidth,mnist3v5,5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.927,0.016,5
+E10_real_screen_no_bandwidth,mnist3v5,5,100,50,qsvm,tuned incl. bandwidth,valid,0.897,0.013,5
+E10_real_screen_no_bandwidth,mnist3v8,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.84,0.0306,5
+E10_real_screen_no_bandwidth,mnist3v8,2,100,50,qsvm,tuned incl. bandwidth,valid,0.846,0.0489,5
+E10_real_screen_no_bandwidth,mnist3v8,3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.848,0.0175,5
+E10_real_screen_no_bandwidth,mnist3v8,3,100,50,qsvm,tuned incl. bandwidth,valid,0.84,0.0294,5
+E10_real_screen_no_bandwidth,mnist3v8,5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.898,0.0179,5
+E10_real_screen_no_bandwidth,mnist3v8,5,100,50,qsvm,tuned incl. bandwidth,valid,0.88,0.0245,5
+E10_real_screen_no_bandwidth,mnist4v9,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.686,0.0383,5
+E10_real_screen_no_bandwidth,mnist4v9,2,100,50,qsvm,tuned incl. bandwidth,valid,0.696,0.0207,5
+E10_real_screen_no_bandwidth,mnist4v9,3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.667,0.0399,5
+E10_real_screen_no_bandwidth,mnist4v9,3,100,50,qsvm,tuned incl. bandwidth,valid,0.678,0.0365,5
+E10_real_screen_no_bandwidth,mnist4v9,5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.745,0.0335,5
+E10_real_screen_no_bandwidth,mnist4v9,5,100,50,qsvm,tuned incl. bandwidth,valid,0.698,0.0266,5
+E10_real_screen_no_bandwidth,mnist5v6,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.925,0.0117,5
+E10_real_screen_no_bandwidth,mnist5v6,2,100,50,qsvm,tuned incl. bandwidth,valid,0.925,0.0194,5
+E10_real_screen_no_bandwidth,mnist5v6,3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.947,0.016,5
+E10_real_screen_no_bandwidth,mnist5v6,3,100,50,qsvm,tuned incl. bandwidth,valid,0.94,0.024,5
+E10_real_screen_no_bandwidth,mnist5v6,5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.949,0.0164,5
+E10_real_screen_no_bandwidth,mnist5v6,5,100,50,qsvm,tuned incl. bandwidth,valid,0.939,0.0156,5
+E10_real_screen_no_bandwidth,mnist7v9,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.6,0.047,5
+E10_real_screen_no_bandwidth,mnist7v9,2,100,50,qsvm,tuned incl. bandwidth,valid,0.59,0.0267,5
+E10_real_screen_no_bandwidth,mnist7v9,3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.814,0.0192,5
+E10_real_screen_no_bandwidth,mnist7v9,3,100,50,qsvm,tuned incl. bandwidth,valid,0.777,0.0256,5
+E10_real_screen_no_bandwidth,mnist7v9,5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.895,0.025,5
+E10_real_screen_no_bandwidth,mnist7v9,5,100,50,qsvm,tuned incl. bandwidth,valid,0.881,0.0198,5
+E10b_real_screen_bandwidth_pilot,fashion0v6,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",partial (run crashed on breast_cancer; only first datasets),0.8075,0.0389,2
+E10b_real_screen_bandwidth_pilot,fashion0v6,2,100,50,qsvm,tuned incl. bandwidth,partial (run crashed on breast_cancer; only first datasets),0.8225,0.046,2
+E10b_real_screen_bandwidth_pilot,mnist1v5,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",partial (run crashed on breast_cancer; only first datasets),0.975,0.0141,2
+E10b_real_screen_bandwidth_pilot,mnist1v5,2,100,50,qsvm,tuned incl. bandwidth,partial (run crashed on breast_cancer; only first datasets),0.9825,0.0035,2
+E10b_real_screen_bandwidth_pilot,mnist3v8,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",partial (run crashed on breast_cancer; only first datasets),0.8525,0.0247,2
+E10b_real_screen_bandwidth_pilot,mnist3v8,2,100,50,qsvm,tuned incl. bandwidth,partial (run crashed on breast_cancer; only first datasets),0.8475,0.0247,2
+E10b_real_screen_bandwidth_pilot,mnist4v9,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",partial (run crashed on breast_cancer; only first datasets),0.715,0.0141,2
+E10b_real_screen_bandwidth_pilot,mnist4v9,2,100,50,qsvm,tuned incl. bandwidth,partial (run crashed on breast_cancer; only first datasets),0.7025,0.0177,2
+E10b_real_screen_bandwidth_pilot,mnist7v9,2,100,50,classical,"tuned (RBF/poly, balanced-acc)",partial (run crashed on breast_cancer; only first datasets),0.62,0.0636,2
+E10b_real_screen_bandwidth_pilot,mnist7v9,2,100,50,qsvm,tuned incl. bandwidth,partial (run crashed on breast_cancer; only first datasets),0.575,0.0778,2
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,50,2,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6219,0.0948,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,50,2,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.4972,0.0102,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,50,5,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6431,0.0934,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,50,5,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.4983,0.0201,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,50,10,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6542,0.0943,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,50,10,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5172,0.0198,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,50,25,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6636,0.0911,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,50,25,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.515,0.0302,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,100,4,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6267,0.0911,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,100,4,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.4986,0.0147,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,100,10,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6581,0.0992,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,100,10,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.4969,0.0308,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,100,20,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6753,0.0891,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,100,20,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.4983,0.0286,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6675,0.087,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,100,50,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.4975,0.0301,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,200,8,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6514,0.0795,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,200,8,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5,0.0275,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,200,20,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6714,0.0776,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,200,20,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5103,0.0307,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,200,40,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.675,0.0966,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,200,40,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.4864,0.0352,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,200,100,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6919,0.0687,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",3,200,100,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5125,0.0318,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,50,2,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6019,0.072,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,50,2,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5,0.0,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,50,5,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6786,0.0862,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,50,5,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.4986,0.0066,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,50,10,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6972,0.0689,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,50,10,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5003,0.0112,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,50,25,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7167,0.0769,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,50,25,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.4986,0.0446,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,100,4,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6586,0.0867,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,100,4,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5003,0.0021,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,100,10,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7094,0.0748,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,100,10,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5003,0.009,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,100,20,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7328,0.0644,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,100,20,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.505,0.0199,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7375,0.0666,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,100,50,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.4986,0.0284,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,200,8,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6986,0.0674,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,200,8,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.4997,0.005,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,200,20,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7172,0.0526,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,200,20,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5064,0.0172,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,200,40,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7408,0.0611,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,200,40,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5036,0.0241,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,200,100,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7367,0.0759,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",5,200,100,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5072,0.0515,18
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,50,2,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5904,0.0497,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,50,2,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5,0.0,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,50,5,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6904,0.0762,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,50,5,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5,0.0,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,50,10,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7246,0.056,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,50,10,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5,0.0,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,50,25,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7458,0.0723,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,50,25,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.4888,0.0443,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,100,4,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.6746,0.0676,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,100,4,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5,0.0,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,100,10,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7254,0.0568,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,100,10,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5,0.0,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,100,20,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7779,0.0577,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,100,20,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5,0.0,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7912,0.0656,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,100,50,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5013,0.0313,12
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,200,8,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7283,0.0604,6
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,200,8,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5,0.0,6
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,200,20,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7783,0.083,6
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,200,20,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5,0.0,6
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,200,40,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.7892,0.0641,6
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,200,40,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5,0.0,6
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,200,100,classical,"tuned (RBF/poly, balanced-acc)",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.83,0.0737,8
+E11_kin8nm_no_bandwidth,"kin8nm (OpenML robot arm), binarized",8,200,100,qsvm,"tuned, no bandwidth",valid (QSVM at chance: kernel concentration at raw scale; k=8 incomplete),0.5,0.0424,8
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,50,2,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7483,0.1118,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,50,2,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.7217,0.0828,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,50,5,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.743,0.0591,5
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,50,5,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.679,0.0446,5
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,50,10,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7358,0.0278,6
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,50,10,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.67,0.0319,6
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,50,25,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7542,0.0328,6
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,50,25,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.6983,0.0442,6
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,100,4,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7383,0.0513,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,100,4,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.6467,0.0759,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,100,10,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7483,0.0333,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,100,10,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.6967,0.0666,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,100,20,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.76,0.0229,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,100,20,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.7133,0.0104,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,100,50,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7433,0.0161,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,100,50,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.725,0.0527,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,200,8,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7167,0.0637,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,200,8,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.7433,0.0465,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,200,20,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.73,0.0458,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,200,20,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.7067,0.0247,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,200,40,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7733,0.0416,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,200,40,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.7633,0.0513,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,200,100,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.77,0.0346,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",3,200,100,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.7,0.0705,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,50,2,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.6917,0.102,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,50,2,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.5533,0.0325,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,50,5,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7117,0.0586,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,50,5,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.6417,0.0967,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,50,10,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7317,0.0448,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,50,10,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.6767,0.0621,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,50,25,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7467,0.0176,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,50,25,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.6667,0.0284,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,100,4,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7283,0.0653,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,100,4,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.6117,0.0454,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,100,10,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.755,0.0304,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,100,10,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.65,0.0391,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,100,20,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.78,0.0173,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,100,20,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.7267,0.0104,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,100,50,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7583,0.0161,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,100,50,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.6567,0.0983,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,200,40,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.795,0.0636,2
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,200,40,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.7325,0.0389,2
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,200,100,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.7867,0.0425,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",5,200,100,qsvm,"tuned, bandwidth 0.1-2",partial; scale grid truncated at 0.1,0.74,0.0721,3
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",8,50,5,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.775,,1
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",8,50,5,qsvm,"tuned, bandwidth 0.25-2",partial; scale grid truncated at 0.1,0.5,,1
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",8,50,25,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.825,,1
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",8,50,25,qsvm,"tuned, bandwidth 0.25-2",partial; scale grid truncated at 0.1,0.65,,1
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",8,100,10,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.76,,1
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",8,100,10,qsvm,"tuned, bandwidth 0.25-2",partial; scale grid truncated at 0.1,0.5,,1
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",8,100,50,classical,"tuned (RBF/poly, balanced-acc)",partial; scale grid truncated at 0.1,0.85,,1
+E12_kin8nm_bandwidth_scales_0.1plus,"kin8nm (OpenML robot arm), binarized",8,100,50,qsvm,"tuned, bandwidth 0.25-2",partial; scale grid truncated at 0.1,0.705,,1
+E13_kin8nm_bandwidth_scales_0.01-0.25,"kin8nm (OpenML robot arm), binarized",3,100,10,classical,"tuned (RBF/poly, balanced-acc)",valid,0.7538,0.0325,4
+E13_kin8nm_bandwidth_scales_0.01-0.25,"kin8nm (OpenML robot arm), binarized",3,100,10,qsvm,"tuned, bandwidth 0.01-0.25",valid,0.7562,0.0217,4
+E13_kin8nm_bandwidth_scales_0.01-0.25,"kin8nm (OpenML robot arm), binarized",3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.76,0.0308,4
+E13_kin8nm_bandwidth_scales_0.01-0.25,"kin8nm (OpenML robot arm), binarized",3,100,50,qsvm,"tuned, bandwidth 0.01-0.25",valid,0.75,0.0255,4
+E13_kin8nm_bandwidth_scales_0.01-0.25,"kin8nm (OpenML robot arm), binarized",5,100,10,classical,"tuned (RBF/poly, balanced-acc)",valid,0.7575,0.0397,4
+E13_kin8nm_bandwidth_scales_0.01-0.25,"kin8nm (OpenML robot arm), binarized",5,100,10,qsvm,"tuned, bandwidth 0.01-0.25",valid,0.7275,0.0155,4
+E13_kin8nm_bandwidth_scales_0.01-0.25,"kin8nm (OpenML robot arm), binarized",5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.7725,0.0272,4
+E13_kin8nm_bandwidth_scales_0.01-0.25,"kin8nm (OpenML robot arm), binarized",5,100,50,qsvm,"tuned, bandwidth 0.01-0.25",valid,0.7575,0.0087,4
+E13_kin8nm_bandwidth_scales_0.01-0.25,"kin8nm (OpenML robot arm), binarized",8,100,10,classical,"tuned (RBF/poly, balanced-acc)",valid,0.7462,0.0368,4
+E13_kin8nm_bandwidth_scales_0.01-0.25,"kin8nm (OpenML robot arm), binarized",8,100,10,qsvm,"tuned, bandwidth 0.01-0.25",valid,0.7625,0.0119,4
+E13_kin8nm_bandwidth_scales_0.01-0.25,"kin8nm (OpenML robot arm), binarized",8,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.8425,0.0222,4
+E13_kin8nm_bandwidth_scales_0.01-0.25,"kin8nm (OpenML robot arm), binarized",8,100,50,qsvm,"tuned, bandwidth 0.01-0.25",valid,0.82,0.037,4
+E5_tuned_bacc_100_2,MNIST,5,100,2,classical,fixed defaults,valid,0.7251,0.1606,90
+E5_tuned_bacc_100_2,MNIST,5,100,2,classical,tuned (balanced-accuracy objective),valid,0.8384,0.1165,90
+E5_tuned_bacc_100_2,MNIST,5,100,2,qsvm,fixed defaults,valid,0.6363,0.1043,90
+E5_tuned_bacc_100_2,MNIST,5,100,2,qsvm,"tuned (balanced-accuracy objective), no bandwidth",valid,0.6924,0.108,90
+E5_tuned_bacc_50_1,MNIST,5,50,1,classical,fixed defaults,valid,0.5876,0.1315,90
+E5_tuned_bacc_50_1,MNIST,5,50,1,classical,tuned (balanced-accuracy objective),valid,0.766,0.1326,90
+E5_tuned_bacc_50_1,MNIST,5,50,1,qsvm,fixed defaults,valid,0.5852,0.0803,90
+E5_tuned_bacc_50_1,MNIST,5,50,1,qsvm,"tuned (balanced-accuracy objective), no bandwidth",valid,0.6138,0.0907,90
+E6_tuned_bacc_extendedC_100_2,MNIST,5,100,2,classical,fixed defaults,valid,0.7251,0.1606,90
+E6_tuned_bacc_extendedC_100_2,MNIST,5,100,2,classical,tuned (balanced-accuracy objective),valid,0.8384,0.1165,90
+E6_tuned_bacc_extendedC_100_2,MNIST,5,100,2,qsvm,fixed defaults,valid,0.6363,0.1043,90
+E6_tuned_bacc_extendedC_100_2,MNIST,5,100,2,qsvm,"tuned (balanced-accuracy objective), no bandwidth",valid,0.6924,0.108,90
+E6_tuned_bacc_extendedC_50_1,MNIST,5,50,1,classical,fixed defaults,valid,0.5876,0.1315,90
+E6_tuned_bacc_extendedC_50_1,MNIST,5,50,1,classical,tuned (balanced-accuracy objective),valid,0.766,0.1326,90
+E6_tuned_bacc_extendedC_50_1,MNIST,5,50,1,qsvm,fixed defaults,valid,0.5852,0.0803,90
+E6_tuned_bacc_extendedC_50_1,MNIST,5,50,1,qsvm,"tuned (balanced-accuracy objective), no bandwidth",valid,0.6138,0.0907,90
+E7_bandwidth_100_2,MNIST,5,100,2,classical,tuned RICH grid (balanced-acc objective),valid,0.8459,0.1166,90
+E7_bandwidth_100_2,MNIST,5,100,2,classical,tuned small grid (balanced-acc objective),valid,0.8384,0.1165,90
+E7_bandwidth_100_2,MNIST,5,100,2,qsvm,tuned incl. bandwidth scale (balanced-acc objective),valid,0.8459,0.1104,90
+E7_bandwidth_50_1,MNIST,5,50,1,classical,tuned RICH grid (balanced-acc objective),valid,0.7981,0.1385,90
+E7_bandwidth_50_1,MNIST,5,50,1,classical,tuned small grid (balanced-acc objective),valid,0.766,0.1326,90
+E7_bandwidth_50_1,MNIST,5,50,1,qsvm,tuned incl. bandwidth scale (balanced-acc objective),valid,0.7944,0.1249,90
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,1,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5567,0.0406,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,1,qsvm,tuned (blind to generating map),valid,0.7367,0.0905,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,1,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.7238,0.089,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,2,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5575,0.0592,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,2,qsvm,tuned (blind to generating map),valid,0.8625,0.0852,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,2,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.835,0.11,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,5,classical,"tuned (RBF/poly, balanced-acc)",valid,0.6063,0.0536,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,5,qsvm,tuned (blind to generating map),valid,0.945,0.0565,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,5,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.945,0.0565,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,10,classical,"tuned (RBF/poly, balanced-acc)",valid,0.6637,0.0455,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,10,qsvm,tuned (blind to generating map),valid,0.9858,0.0235,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,10,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.9858,0.0235,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,25,classical,"tuned (RBF/poly, balanced-acc)",valid,0.7367,0.0702,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,25,qsvm,tuned (blind to generating map),valid,0.9817,0.0261,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,25,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.9817,0.0261,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,2,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5546,0.044,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,2,qsvm,tuned (blind to generating map),valid,0.8629,0.0892,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,2,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.8504,0.0917,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,4,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5871,0.0485,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,4,qsvm,tuned (blind to generating map),valid,0.9425,0.0645,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,4,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.9238,0.0779,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,10,classical,"tuned (RBF/poly, balanced-acc)",valid,0.6592,0.0487,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,10,qsvm,tuned (blind to generating map),valid,0.9846,0.0213,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,10,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.9862,0.0169,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,20,classical,"tuned (RBF/poly, balanced-acc)",valid,0.7517,0.0539,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,20,qsvm,tuned (blind to generating map),valid,0.9792,0.0225,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,20,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.9854,0.013,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.84,0.0476,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,50,qsvm,tuned (blind to generating map),valid,0.9871,0.0188,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,50,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.9938,0.0096,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,1,classical,"tuned (RBF/poly, balanced-acc)",valid,0.4988,0.0151,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,1,qsvm,tuned (blind to generating map),valid,0.5217,0.0248,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,1,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5171,0.0227,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,2,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5283,0.0216,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,2,qsvm,tuned (blind to generating map),valid,0.5538,0.0367,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,2,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.555,0.0357,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,5,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5079,0.0288,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,5,qsvm,tuned (blind to generating map),valid,0.7871,0.0541,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,5,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.7808,0.0603,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,10,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5167,0.044,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,10,qsvm,tuned (blind to generating map),valid,0.9042,0.0302,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,10,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.9042,0.0302,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,25,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5179,0.0447,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,25,qsvm,tuned (blind to generating map),valid,0.9692,0.0164,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,25,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.9692,0.0164,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,2,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5308,0.0314,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,2,qsvm,tuned (blind to generating map),valid,0.5808,0.0497,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,2,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5842,0.0472,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,4,classical,"tuned (RBF/poly, balanced-acc)",valid,0.52,0.031,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,4,qsvm,tuned (blind to generating map),valid,0.75,0.0821,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,4,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.7525,0.0764,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,10,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5029,0.0373,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,10,qsvm,tuned (blind to generating map),valid,0.8575,0.0861,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,10,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.8662,0.0668,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,20,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5187,0.0399,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,20,qsvm,tuned (blind to generating map),valid,0.9608,0.0329,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,20,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.9608,0.0329,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5287,0.0287,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,50,qsvm,tuned (blind to generating map),valid,0.9929,0.0096,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,50,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.9929,0.0096,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,1,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5033,0.0105,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,1,qsvm,tuned (blind to generating map),valid,0.5004,0.0014,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,1,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5,0.0,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,2,classical,"tuned (RBF/poly, balanced-acc)",valid,0.4912,0.0196,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,2,qsvm,tuned (blind to generating map),valid,0.5021,0.005,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,2,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5008,0.0019,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,5,classical,"tuned (RBF/poly, balanced-acc)",valid,0.4921,0.0241,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,5,qsvm,tuned (blind to generating map),valid,0.5638,0.0413,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,5,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5721,0.0335,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,10,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5025,0.0298,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,10,qsvm,tuned (blind to generating map),valid,0.7375,0.0597,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,10,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.7375,0.0597,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,25,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5042,0.0351,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,25,qsvm,tuned (blind to generating map),valid,0.8921,0.0291,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,50,25,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.8921,0.0291,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,2,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5042,0.0161,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,2,qsvm,tuned (blind to generating map),valid,0.5038,0.0064,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,2,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5029,0.0058,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,4,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5071,0.0196,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,4,qsvm,tuned (blind to generating map),valid,0.5079,0.0163,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,4,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5121,0.0132,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,10,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5175,0.0268,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,10,qsvm,tuned (blind to generating map),valid,0.6517,0.0477,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,10,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.6517,0.0477,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,20,classical,"tuned (RBF/poly, balanced-acc)",valid,0.4975,0.0327,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,20,qsvm,tuned (blind to generating map),valid,0.8567,0.0396,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,20,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.8567,0.0396,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5167,0.0268,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,50,qsvm,tuned (blind to generating map),valid,0.9617,0.0157,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),4,100,50,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.9617,0.0157,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,1,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5133,0.0211,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,1,qsvm,tuned (blind to generating map),valid,0.5,0.0,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,1,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5,0.0,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,2,classical,"tuned (RBF/poly, balanced-acc)",valid,0.4946,0.0293,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,2,qsvm,tuned (blind to generating map),valid,0.5,0.0,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,2,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5,0.0,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,5,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5042,0.0384,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,5,qsvm,tuned (blind to generating map),valid,0.5012,0.0043,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,5,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5008,0.0019,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,10,classical,"tuned (RBF/poly, balanced-acc)",valid,0.4962,0.0497,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,10,qsvm,tuned (blind to generating map),valid,0.5079,0.0195,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,10,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5208,0.0174,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,25,classical,"tuned (RBF/poly, balanced-acc)",valid,0.505,0.0265,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,25,qsvm,tuned (blind to generating map),valid,0.8417,0.038,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,50,25,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.8417,0.038,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,2,classical,"tuned (RBF/poly, balanced-acc)",valid,0.51,0.024,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,2,qsvm,tuned (blind to generating map),valid,0.5,0.0,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,2,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5,0.0,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,4,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5142,0.0158,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,4,qsvm,tuned (blind to generating map),valid,0.5,0.0,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,4,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5,0.0,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,10,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5013,0.0238,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,10,qsvm,tuned (blind to generating map),valid,0.4971,0.0096,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,10,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.5029,0.0045,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,20,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5025,0.0282,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,20,qsvm,tuned (blind to generating map),valid,0.6292,0.0477,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,20,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.6292,0.0477,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,50,classical,"tuned (RBF/poly, balanced-acc)",valid,0.5229,0.0237,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,50,qsvm,tuned (blind to generating map),valid,0.9125,0.029,12
+E8_engineered_no_bandwidth,engineered ZZ (qiskit ad_hoc_data gap=0.3),5,100,50,qsvm_matched,"oracle: true map (reps=2, full), tune C only",valid,0.9125,0.029,12
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,2,classical,"tuned (RBF/poly, balanced-acc)","partial (only n=2,3 completed; reduced grid)",0.4975,0.0106,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,2,qsvm,tuned (blind to generating map),"partial (only n=2,3 completed; reduced grid)",0.7775,0.0389,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,2,qsvm_matched,"oracle: true map (reps=2, full), tune C only","partial (only n=2,3 completed; reduced grid)",0.81,0.0071,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,5,classical,"tuned (RBF/poly, balanced-acc)","partial (only n=2,3 completed; reduced grid)",0.5825,0.0955,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,5,qsvm,tuned (blind to generating map),"partial (only n=2,3 completed; reduced grid)",0.8975,0.0813,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,5,qsvm_matched,"oracle: true map (reps=2, full), tune C only","partial (only n=2,3 completed; reduced grid)",0.8975,0.0813,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,25,classical,"tuned (RBF/poly, balanced-acc)","partial (only n=2,3 completed; reduced grid)",0.6525,0.0742,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,25,qsvm,tuned (blind to generating map),"partial (only n=2,3 completed; reduced grid)",0.99,0.0071,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,50,25,qsvm_matched,"oracle: true map (reps=2, full), tune C only","partial (only n=2,3 completed; reduced grid)",0.99,0.0071,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,4,classical,"tuned (RBF/poly, balanced-acc)","partial (only n=2,3 completed; reduced grid)",0.5925,0.0106,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,4,qsvm,tuned (blind to generating map),"partial (only n=2,3 completed; reduced grid)",0.9425,0.046,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,4,qsvm_matched,"oracle: true map (reps=2, full), tune C only","partial (only n=2,3 completed; reduced grid)",0.9425,0.046,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,10,classical,"tuned (RBF/poly, balanced-acc)","partial (only n=2,3 completed; reduced grid)",0.63,0.0424,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,10,qsvm,tuned (blind to generating map),"partial (only n=2,3 completed; reduced grid)",0.985,0.0,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,10,qsvm_matched,"oracle: true map (reps=2, full), tune C only","partial (only n=2,3 completed; reduced grid)",0.985,0.0,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,50,classical,"tuned (RBF/poly, balanced-acc)","partial (only n=2,3 completed; reduced grid)",0.7175,0.0318,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,50,qsvm,tuned (blind to generating map),"partial (only n=2,3 completed; reduced grid)",0.9975,0.0035,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),2,100,50,qsvm_matched,"oracle: true map (reps=2, full), tune C only","partial (only n=2,3 completed; reduced grid)",0.9975,0.0035,2
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,2,classical,"tuned (RBF/poly, balanced-acc)","partial (only n=2,3 completed; reduced grid)",0.56,,1
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,2,qsvm,tuned (blind to generating map),"partial (only n=2,3 completed; reduced grid)",0.62,,1
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,2,qsvm_matched,"oracle: true map (reps=2, full), tune C only","partial (only n=2,3 completed; reduced grid)",0.62,,1
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,5,classical,"tuned (RBF/poly, balanced-acc)","partial (only n=2,3 completed; reduced grid)",0.54,,1
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,5,qsvm,tuned (blind to generating map),"partial (only n=2,3 completed; reduced grid)",0.815,,1
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,5,qsvm_matched,"oracle: true map (reps=2, full), tune C only","partial (only n=2,3 completed; reduced grid)",0.815,,1
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,25,classical,"tuned (RBF/poly, balanced-acc)","partial (only n=2,3 completed; reduced grid)",0.48,,1
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,25,qsvm,tuned (blind to generating map),"partial (only n=2,3 completed; reduced grid)",0.975,,1
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,50,25,qsvm_matched,"oracle: true map (reps=2, full), tune C only","partial (only n=2,3 completed; reduced grid)",0.975,,1
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,50,classical,"tuned (RBF/poly, balanced-acc)","partial (only n=2,3 completed; reduced grid)",0.57,,1
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,50,qsvm,tuned (blind to generating map),"partial (only n=2,3 completed; reduced grid)",0.965,,1
+E9_engineered_bandwidth_pilot,engineered ZZ (qiskit ad_hoc_data gap=0.3),3,100,50,qsvm_matched,"oracle: true map (reps=2, full), tune C only","partial (only n=2,3 completed; reduced grid)",0.965,,1
