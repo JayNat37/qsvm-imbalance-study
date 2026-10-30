@@ -30,7 +30,7 @@ from src.classical.classical_svm import fit_predict_svm
 from src.qsvm.config import QSVMConfig, NoiseConfig
 from src.qsvm.kernel import QuantumKernel
 from src.experiments.metrics import classification_metrics
-from src.ui.tuning import make_tuning_split, tune_classical, tune_qsvm
+from src.ui.tuning import make_tuning_data, tune_classical, tune_qsvm
 
 HISTORY_FILE = REPO_ROOT / "results" / "ui_run_history.jsonl"
 
@@ -83,6 +83,7 @@ def flatten_history(records: list[dict]) -> pd.DataFrame:
             "q_shots": q["params"]["shots"],
             "q_C": q["params"]["C"],
             "q_class_weight": q["params"].get("class_weight"),
+            "q_bandwidth": q["params"].get("bandwidth", 1.0),
             "q_time_s": round(q["time"], 3),
             "run_id": r["run_id"],
             "sweep_id": r.get("sweep_id"),
@@ -156,8 +157,9 @@ def run_pair(dataset_cfg: DatasetConfig, classical_params: dict, qsvm_params: di
     kernel = QuantumKernel(qcfg)
 
     t1 = time.time()
-    K_train = kernel.compute(X_train, X_train)
-    K_test = kernel.compute(X_test, X_train)
+    bw = float(qsvm_params.get("bandwidth", 1.0))
+    K_train = kernel.compute(X_train * bw, X_train * bw)
+    K_test = kernel.compute(X_test * bw, X_train * bw)
     clf = SVC(kernel="precomputed", C=qcfg.C, class_weight=qsvm_params.get("class_weight"))
     clf.fit(K_train, y_train)
     y_pred_q = clf.predict(K_test)
@@ -218,6 +220,8 @@ def make_label(dataset_name: str, dataset_params: dict, classical_params: dict, 
     q = f"{qsvm_params['feature_map']}/{qsvm_params['mode']}"
     if qsvm_params["mode"] == "noisy_aer":
         q += f"/{qsvm_params['shots']}sh"
+    if qsvm_params.get("bandwidth", 1.0) != 1.0:
+        q += f"/bw={qsvm_params['bandwidth']}"
     c_cw = classical_params.get("class_weight") or "none"
     q_cw = qsvm_params.get("class_weight") or "none"
     return (f"{dataset_name} [{imb}] · classical(C={classical_params['C']}, γ={classical_params['gamma']}, cw={c_cw}) "
@@ -392,6 +396,12 @@ reps = st.sidebar.number_input("reps", value=1, min_value=1, key="reps")
 entanglement = st.sidebar.selectbox("Entanglement", ["linear", "full", "circular"], key="entanglement")
 mode = st.sidebar.selectbox("Mode", ["statevector", "noisy_aer"], key="mode")
 q_C = st.sidebar.number_input("C (quantum)", value=10.0, min_value=0.0001, format="%.4f", key="q_C")
+q_bandwidth = st.sidebar.number_input(
+    "bandwidth (input scale)", value=1.0, min_value=0.001, step=0.05, format="%.3f", key="q_bandwidth",
+    help="Multiplies the inputs before they enter the circuit - the quantum analogue of an RBF gamma. "
+         "Small values (about 0.01-0.1) make the ZZ kernel smooth and RBF-like; large values make it "
+         "concentrate towards the identity matrix, which can drop QSVM to chance.",
+)
 q_class_weight_mode = st.sidebar.selectbox(
     "class_weight (QSVM)", ["None", "balanced"], key="q_class_weight_mode",
     help="Same mechanism as classical's class_weight, applied to the precomputed-kernel SVC after "
@@ -441,13 +451,14 @@ classical_params_current = {
 qsvm_params_current = {
     "feature_map": feature_map, "reps": int(reps), "entanglement": entanglement,
     "mode": mode, "shots": shots, "seed": int(q_seed), "scale_to_pi": bool(scale_to_pi),
-    "C": float(q_C), "class_weight": q_class_weight, "noise_type": noise_type,
+    "C": float(q_C), "bandwidth": float(q_bandwidth), "class_weight": q_class_weight, "noise_type": noise_type,
     "noise_strength": float(noise_strength), "noise_apply_to": noise_apply_to,
 }
 
 st.header("Tune hyperparameters")
 
 _GRID_C_CHOICES = [0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]
+_GRID_BANDWIDTH_CHOICES = [0.01, 0.02, 0.05, 0.1, 0.25, 0.5, 1.0, 2.0]
 _GRID_GAMMA_CHOICES = ["scale", "auto", 0.0001, 0.001, 0.01, 0.1, 1.0, 10.0]
 _GRID_CLASS_WEIGHT_CHOICES = ["None", "balanced"]
 _GRID_REPS_CHOICES = [1, 2, 3, 4, 5]
@@ -481,6 +492,11 @@ with settings_col:
         grid_c_qsvm = st.multiselect(
             "C values (QSVM)", _GRID_C_CHOICES, default=[0.1, 1.0, 10.0, 100.0], key="grid_c_qsvm",
         )
+        grid_bandwidth = st.multiselect(
+            "bandwidth values (QSVM)", _GRID_BANDWIDTH_CHOICES, default=[0.05, 0.1, 0.25, 1.0], key="grid_bandwidth",
+            help="Input-scale values to search. Without this the QSVM has no equivalent of the classical gamma "
+                 "grid, which handicaps it.",
+        )
         grid_class_weight_qsvm_labels = st.multiselect(
             "class_weight values (QSVM)", _GRID_CLASS_WEIGHT_CHOICES, default=["None", "balanced"],
             key="grid_class_weight_qsvm",
@@ -491,7 +507,7 @@ if tune_clicked:
         name for name, values in [
             ("classical C", grid_c_classical), ("gamma", grid_gamma), ("class_weight", grid_class_weight_labels),
             ("QSVM feature_map", grid_feature_maps), ("QSVM reps", grid_reps),
-            ("QSVM entanglement", grid_entanglement), ("QSVM C", grid_c_qsvm),
+            ("QSVM entanglement", grid_entanglement), ("QSVM C", grid_c_qsvm), ("QSVM bandwidth", grid_bandwidth),
             ("QSVM class_weight", grid_class_weight_qsvm_labels),
         ] if not values
     ]
@@ -514,8 +530,7 @@ if tune_clicked:
         try:
             with st.spinner("Loading data and running grid search..."):
                 X_tune, y_tune = load_dataset_raw(tuning_dataset_cfg)
-                X_train_pool, _, y_train_pool, _ = preprocess(X_tune, y_tune, cfg=tuning_dataset_cfg)
-                X_tr, X_val, y_tr, y_val = make_tuning_split(X_train_pool, y_train_pool, seed=int(split_seed))
+                X_tr, X_val, y_tr, y_val = make_tuning_data(tuning_dataset_cfg, X_tune, y_tune)
                 best_classical = tune_classical(
                     X_tr, y_tr, X_val, y_val,
                     c_grid=grid_c_classical, gamma_grid=grid_gamma, class_weight_grid=class_weight_grid,
@@ -524,7 +539,7 @@ if tune_clicked:
                     X_tr, y_tr, X_val, y_val, grid_feature_maps,
                     scale_to_pi=bool(scale_to_pi), seed=int(split_seed),
                     reps_grid=grid_reps, entanglement_grid=grid_entanglement, c_grid=grid_c_qsvm,
-                    class_weight_grid=class_weight_grid_qsvm,
+                    class_weight_grid=class_weight_grid_qsvm, bandwidth_grid=grid_bandwidth,
                 )
             st.session_state.tuning_result = {"classical": best_classical, "qsvm": best_qsvm}
         except Exception as e:
@@ -537,12 +552,13 @@ if st.session_state.tuning_result:
     with tcol1:
         bc = tr["classical"]
         st.write(f"**Best classical**: C={bc['C']}, gamma={bc['gamma']}, class_weight={bc['class_weight'] or 'none'}")
-        st.caption(f"Validation accuracy: {bc['val_accuracy']:.3f}")
+        st.caption(f"Validation balanced accuracy: {bc['val_accuracy']:.3f}")
     with tcol2:
         bq = tr["qsvm"]
         st.write(f"**Best QSVM**: feature_map={bq['feature_map']}, reps={bq['reps']}, "
-                 f"entanglement={bq['entanglement']}, C={bq['C']}, class_weight={bq['class_weight'] or 'none'}")
-        st.caption(f"Validation accuracy: {bq['val_accuracy']:.3f}")
+                 f"entanglement={bq['entanglement']}, C={bq['C']}, bandwidth={bq['bandwidth']}, "
+                 f"class_weight={bq['class_weight'] or 'none'}")
+        st.caption(f"Validation balanced accuracy: {bq['val_accuracy']:.3f}")
 
     if st.button("Apply tuned values to sidebar"):
         bc, bq = tr["classical"], tr["qsvm"]
@@ -553,6 +569,7 @@ if st.session_state.tuning_result:
             "reps": int(bq["reps"]),
             "entanglement": bq["entanglement"],
             "q_C": float(bq["C"]),
+            "q_bandwidth": float(bq["bandwidth"]),
             "q_class_weight_mode": "None" if bq["class_weight"] is None else "balanced",
         }
         if bc["gamma"] in ("scale", "auto"):
@@ -647,7 +664,7 @@ _sweep_empty_grids = [
     name for name, values in [
         ("classical C", grid_c_classical), ("gamma", grid_gamma), ("class_weight", grid_class_weight_labels),
         ("QSVM feature_map", grid_feature_maps), ("QSVM reps", grid_reps),
-        ("QSVM entanglement", grid_entanglement), ("QSVM C", grid_c_qsvm),
+        ("QSVM entanglement", grid_entanglement), ("QSVM C", grid_c_qsvm), ("QSVM bandwidth", grid_bandwidth),
         ("QSVM class_weight", grid_class_weight_qsvm_labels),
     ] if not values
 ] if tune_at_each_point else []
@@ -664,6 +681,7 @@ if st.button("Add sweep to queue", disabled=not sweep_grid or bool(_sweep_empty_
         "reps": list(grid_reps),
         "entanglement": list(grid_entanglement),
         "c_qsvm": list(grid_c_qsvm),
+        "bandwidth": list(grid_bandwidth),
         "class_weight_qsvm": tuple(None if v == "None" else v for v in grid_class_weight_qsvm_labels),
     } if tune_at_each_point else None
     for s, f in sweep_grid:
@@ -862,10 +880,7 @@ else:
                     if next_item.get("tune_before_run"):
                         tg = next_item["tune_grids"]
                         X_pt, y_pt = load_dataset_raw(dataset_cfg)
-                        X_train_pt, _, y_train_pt, _ = preprocess(X_pt, y_pt, cfg=dataset_cfg)
-                        X_tr_pt, X_val_pt, y_tr_pt, y_val_pt = make_tuning_split(
-                            X_train_pt, y_train_pt, seed=next_item["split_seed"],
-                        )
+                        X_tr_pt, X_val_pt, y_tr_pt, y_val_pt = make_tuning_data(dataset_cfg, X_pt, y_pt)
                         best_c_pt = tune_classical(
                             X_tr_pt, y_tr_pt, X_val_pt, y_val_pt,
                             c_grid=tg["c_classical"], gamma_grid=tg["gamma"], class_weight_grid=tg["class_weight"],
@@ -877,6 +892,7 @@ else:
                             seed=next_item["split_seed"],
                             reps_grid=tg["reps"], entanglement_grid=tg["entanglement"], c_grid=tg["c_qsvm"],
                             class_weight_grid=tg.get("class_weight_qsvm", (None, "balanced")),
+                            bandwidth_grid=tg.get("bandwidth", [1.0]),
                         )
                         next_item["classical_params"] = {
                             **next_item["classical_params"],
@@ -886,6 +902,7 @@ else:
                             **next_item["qsvm_params"],
                             "feature_map": best_q_pt["feature_map"], "reps": best_q_pt["reps"],
                             "entanglement": best_q_pt["entanglement"], "C": best_q_pt["C"],
+                            "bandwidth": best_q_pt["bandwidth"],
                             "class_weight": best_q_pt["class_weight"],
                         }
 
